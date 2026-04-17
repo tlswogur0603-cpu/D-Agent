@@ -3,6 +3,10 @@ from typing import List
 from pydantic import BaseModel, Field
 
 
+class LogAnalysisRequest(BaseModel):
+    logs: List[str]
+
+
 class LogAnalysisResponse(BaseModel):
     error_summary: str = Field(
         description="로그 분석 결과를 요약한 내용입니다. (예: 핵심 에러 메시지, 발생 원인 추정, 영향 범위 요약 등)"
