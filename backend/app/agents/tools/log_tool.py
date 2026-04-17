@@ -1,6 +1,6 @@
 from typing import List
 
-from backend.app.services.log_service import get_filtered_logs
+from app.services.log_service import get_filtered_logs
 
 
 def get_logs_for_ai(logs: List[str]) -> List[List[str]]:
