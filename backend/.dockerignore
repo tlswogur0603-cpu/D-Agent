@@ -1,0 +1,14 @@
+# 가상환경 및 캐시
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# 환경 변수 (보안상 배포 서비스 설정에서 직접 입력 권장)
+.env
+
+# 기타 불필요한 파일
+.git/
+.gitignore
+.pytest_cache/
+tests/
