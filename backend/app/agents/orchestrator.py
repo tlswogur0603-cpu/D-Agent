@@ -32,6 +32,7 @@ def analyze_logs(raw_logs: List[str]) -> LogAnalysisResponse:
     # 후속 JSON 파싱과 Pydantic 검증 성공률을 높입니다.
     prompt = (
         "당신은 보안 로그 분석가입니다. 아래 로그를 바탕으로 보안 관점에서 분석하세요.\n"
+        "모든 분석 결과는 반드시 한국어로 작성하라.\n"
         "반드시 JSON 객체만 반환하고, 키는 다음 4개만 사용하세요:\n"
         "error_summary(string), risk_score(int 1~10), detected_issues(string[]), suggested_solutions(string[])\n\n"
         f"로그 데이터:\n{json.dumps(logs_for_ai, ensure_ascii=False)}"
