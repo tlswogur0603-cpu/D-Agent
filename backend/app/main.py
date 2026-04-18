@@ -9,7 +9,9 @@ FastAPI 서버 엔트리포인트(main)입니다.
 """
 
 from fastapi import FastAPI
+from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 # ------------------------------------------------------------
 # 1) 기본 설정: FastAPI 앱 인스턴스(app) 생성/재사용
@@ -58,6 +60,52 @@ app.include_router(
     prefix="/api/v1/agent",
     tags=["agent"],
 )
+
+# ------------------------------------------------------------
+# 3-1) 기본 경로(/) 안내: 서버 상태/문서/주요 엔드포인트 안내
+# ------------------------------------------------------------
+from app.core.config import settings  # noqa: E402
+
+
+@app.get("/")
+async def root() -> dict:
+    return {
+        "project": settings.PROJECT_NAME,
+        "status": "ok",
+        "docs": "/docs",
+        "message": (
+            "서버가 정상 동작 중입니다. "
+            "API 문서는 /docs에서 확인할 수 있습니다."
+        ),
+        "endpoints": {
+            "agent_base": "/api/v1/agent",
+            "agent_analyze": "/api/v1/agent/analyze",
+        },
+    }
+
+
+# ------------------------------------------------------------
+# 3-2) 전역 404 예외 처리: 기본 Not Found 대신 친절한 한국어 메시지 반환
+# ------------------------------------------------------------
+@app.exception_handler(404)
+async def not_found_handler(request: Request, exc: Exception) -> JSONResponse:
+    return JSONResponse(
+        status_code=404,
+        content={
+            "error": "요청하신 경로를 찾을 수 없습니다.",
+            "requested_path": request.url.path,
+            "message": (
+                "입력하신 경로가 존재하지 않습니다. "
+                "사용 가능한 API 목록은 /docs에서 확인해주세요."
+            ),
+            "docs": "/docs",
+            "hint_endpoints": {
+                "agent_base": "/api/v1/agent",
+                "agent_analyze": "/api/v1/agent/analyze",
+            },
+        },
+    )
+
 
 # ------------------------------------------------------------
 # 4) 이벤트 로그: 서버 시작(startup) 시 터미널에 안내 메시지 출력
