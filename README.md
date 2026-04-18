@@ -21,10 +21,10 @@ FastAPI + Docker + AWS EC2 + Gemini AI 기반 **보안 로그 분석 서비스**
 
 ```mermaid
 flowchart LR
-  U[사용자/클라이언트] -->|HTTP| EC2[AWS EC2\nFastAPI (Docker)]
-  EC2 -->|LLM 요청| G[Gemini AI]
-  EC2 -->|분석 히스토리 저장/조회| DB[Supabase\nPostgreSQL]
-  EC2 -->|Swagger| DOCS[/docs]
+    U["사용자/클라이언트"] -->|HTTP| EC2["AWS EC2 (FastAPI/Docker)"]
+    EC2 -->|LLM 요청| G["Gemini AI"]
+    EC2 -->|분석 히스토리 저장/조회| DB["Supabase (PostgreSQL)"]
+    EC2 -->|Swagger| DOCS["/docs"]
 ```
 
 ---
