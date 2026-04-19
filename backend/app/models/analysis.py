@@ -18,7 +18,7 @@ class AnalysisLog(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    raw_log = Column(Text, nullable=False)
+    raw_log = Column(JSONB, nullable=False)
     error_summary = Column(Text)
     risk_score = Column(Integer)
     detected_issues = Column(JSONB)
