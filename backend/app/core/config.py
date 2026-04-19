@@ -40,8 +40,13 @@ class Settings(BaseSettings):
     # .env 또는 OS 환경 변수에 값이 반드시 있어야 합니다.
     # (기본값을 두지 않으면 Settings() 생성 시점에 누락을 검증하고 서버가 즉시 실패합니다.)
     GEMINI_API_KEY: str
+    DATABASE_URL: str
     PROJECT_NAME: str = "D-Agent"
     DEBUG: bool = True
+
+    SUPABASE_URL: str | None = None
+    SUPABASE_SERVICE_ROLE_KEY: str | None = None
+    SUPABASE_ANON_KEY: str | None = None
 
 # 싱글톤 패턴: 다른 파일에서 이 'settings' 객체를 임포트하여 설정값에 접근합니다.
 # 예: from app.core.config import settings -> settings.GEMINI_API_KEY
