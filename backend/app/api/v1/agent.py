@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.agents.orchestrator import analyze_logs
@@ -11,6 +11,38 @@ from app.schemas.agent import LogAnalysisRequest, LogAnalysisResponse
 
 router = APIRouter()
 _LOGGER = logging.getLogger(__name__)
+
+
+@router.get("/history")
+def history(
+    limit: int = Query(10, ge=1, le=100),
+    db: Session = Depends(get_db),
+) -> list[dict]:
+    try:
+        rows = (
+            db.query(AnalysisLog)
+            .order_by(AnalysisLog.created_at.desc())
+            .limit(limit)
+            .all()
+        )
+        return [
+            {
+                "id": str(r.id),
+                "created_at": r.created_at,
+                "raw_log": r.raw_log,
+                "error_summary": r.error_summary,
+                "risk_score": r.risk_score,
+                "detected_issues": r.detected_issues,
+                "suggested_solutions": r.suggested_solutions,
+            }
+            for r in rows
+        ]
+    except Exception:
+        _LOGGER.exception("분석 이력 조회 중 오류가 발생했습니다.")
+        raise HTTPException(
+            status_code=500,
+            detail="분석 이력을 조회하는 중 오류가 발생했습니다.",
+        )
 
 
 @router.post("/analyze", response_model=LogAnalysisResponse)
