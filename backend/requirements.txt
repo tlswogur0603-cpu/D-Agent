@@ -15,3 +15,6 @@ typing_extensions==4.15.0
 uvicorn==0.44.0
 google-generativeai
 pydantic-settings
+supabase
+SQLAlchemy
+psycopg2-binary
