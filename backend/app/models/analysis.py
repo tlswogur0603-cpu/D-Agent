@@ -23,4 +23,5 @@ class AnalysisLog(Base):
     risk_score = Column(Integer)
     detected_issues = Column(JSONB)
     suggested_solutions = Column(JSONB)
+    project_name = Column(Text, nullable=False, default="default_project")
 
