@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 
 class LogAnalysisRequest(BaseModel):
     logs: List[str]
+    project_name: str = "default_project"
 
 
 class LogAnalysisResponse(BaseModel):
