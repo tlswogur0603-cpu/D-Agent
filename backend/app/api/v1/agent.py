@@ -63,6 +63,7 @@ def analyze(
                 risk_score=result.risk_score,
                 detected_issues=result.detected_issues,
                 suggested_solutions=result.suggested_solutions,
+                project_name=request.project_name,
             )
             db.add(row)
             db.commit()
