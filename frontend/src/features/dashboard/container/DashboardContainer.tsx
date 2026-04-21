@@ -1,3 +1,5 @@
+"use client";
+
 import { useDashboard } from "../hooks";
 import { HistoryList } from "../components/HistoryList";
 
@@ -9,6 +11,10 @@ export function DashboardContainer() {
 
   const items = data?.history ?? [];
 
+  if (items.length === 0) {
+    return <div>데이터가 없습니다.</div>;
+  }
+  
   return (
     <main>
       <h2>Dashboard</h2>
