@@ -94,32 +94,81 @@ backend/app/
 
 ```
 frontend/
+├── package.json
+├── package-lock.json
 ├── tsconfig.json
-├── tailwind.config.ts
+├── tailwind.config.js
+├── postcss.config.js
+├── next-env.d.ts
 ├── public/
 │   └── .gitkeep
 └── src/
-    ├── global.d.ts
     ├── app/
-    │   ├── layout.tsx   # 루트 레이아웃(lang=ko)
-    │   └── page.tsx     # 메인 페이지(플레이스홀더)
-    ├── components/
-    │   ├── chat/
+    │   ├── globals.css      # Tailwind 전역 스타일
+    │   ├── layout.tsx       # 루트 레이아웃(lang=ko)
+    │   └── page.tsx         # 메인 페이지 엔트리
+    ├── features/
     │   └── dashboard/
-    ├── hooks/
-    ├── lib/
+    │       ├── api.ts
+    │       ├── hooks.ts
+    │       ├── types.ts
+    │       ├── container/
+    │       │   └── DashboardContainer.tsx
+    │       └── components/
+    │           ├── HistoryList.tsx
+    │           ├── ResultCard.tsx
+    │           └── RiskScore.tsx
+    ├── shared/
+    │   ├── lib/
+    │   │   └── axios.ts
+    │   ├── hooks/
+    │   │   └── .gitkeep
+    │   └── ui/
+    │       └── .gitkeep
     └── types/
-        └── react-shim.d.ts
+        └── .gitkeep
 ```
 
 | 경로 | 역할 |
 |------|------|
 | `src/app/` | Next.js App Router 페이지·레이아웃 |
-| `src/components/chat/`, `dashboard/` | 채팅·대시보드 UI 확장용 디렉터리(`.gitkeep`) |
-| `src/hooks/`, `lib/`, `types/` | API 훅, 클라이언트, 타입 정의 확장용 |
-| `tailwind.config.ts` | Tailwind CSS 설정 |
+| `src/app/globals.css` | Tailwind CSS 전역 스타일 진입점 |
+| `src/features/` | 도메인(기능) 단위로 모듈을 분리하는 최상위 경로 |
+| `src/features/*/api.ts` | API 호출 로직(네트워크 I/O)만 담당 |
+| `src/features/*/hooks.ts` | 데이터 fetching/상태 관리(비즈니스 로직) 담당 |
+| `src/features/*/components/` | 프레젠테이션(UI) 컴포넌트. props만 사용(비즈니스 로직/API 호출 금지) |
+| `src/features/*/container/` | hooks와 UI를 연결(데이터 주입/이벤트 연결) |
+| `src/shared/lib/` | 앱 전반에서 공유하는 클라이언트/유틸(API client 등) |
+| `src/shared/ui/` | 전역 공유 UI 컴포넌트 확장용 디렉터리 |
+| `src/shared/hooks/` | 전역 공유 hooks 확장용 디렉터리 |
+| `src/types/` | 전역 타입 확장용 디렉터리 |
+| `tailwind.config.js` | Tailwind CSS 설정 |
+| `postcss.config.js` | Tailwind/PostCSS 플러그인 설정 |
+| `next-env.d.ts` | Next.js 자동 생성 타입 선언 파일 (수정 금지) |
 
 ---
+
+### 프론트엔드 아키텍처(구조 분리 원칙)
+
+- **UI(프레젠테이션) 계층**: `features/*/components/`
+  - props 기반 렌더링만 담당하며, 네트워크/상태/도메인 로직을 포함하지 않습니다.
+
+- **비즈니스 로직(상태) 계층**: `features/*/hooks.ts`
+  - 데이터 fetching, 로딩/에러 처리, 상태 관리를 담당합니다.
+
+- **I/O(API) 계층**: `features/*/api.ts`
+  - 백엔드와의 HTTP 통신만 담당하며, UI/상태 로직에 의존하지 않습니다.
+
+- **연결(컨테이너) 계층**: `features/*/container/`
+  - hooks에서 가져온 데이터를 UI 컴포넌트에 주입하고, UI 이벤트를 연결합니다.
+
+---
+
+> 참고:
+> - 프론트엔드는 Next.js App Router 기반으로 동작합니다.
+> - 현재 구조는 `dashboard` 기능을 중심으로 feature-first 아키텍처를 적용했습니다.
+> - 공통 UI/훅은 `shared/` 디렉터리를 통해 확장 가능하도록 설계되어 있습니다.
+> - `tsconfig.json`에 path alias가 없어 import는 상대 경로 기준으로 유지합니다.
 
 ## 5. docs/
 
