@@ -15,12 +15,12 @@ export function ResultCard({ item }: ResultCardProps) {
   });
 
   return (
-    <article className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 md:p-8 flex flex-col gap-6">
-      <header className="border-b border-gray-100 pb-4">
-        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+    <article className="max-w-2xl bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col gap-5">
+      <header className="border-b border-gray-100 pb-3">
+        <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
           {item.title}
         </h3>
-        <p className="text-sm text-gray-500">
+        <p className="text-xs text-gray-500">
           {formattedDate}
         </p>
       </header>
