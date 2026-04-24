@@ -20,6 +20,9 @@ function mapHistoryItem(item: HistoryApiItem): HistoryItemModel {
       level: toRiskLevel(item.risk_score),
       summary: item.detected_issues?.[0] ?? "",
     },
+    detectedIssues: item.detected_issues ?? [],
+    suggestedSolutions: item.suggested_solutions ?? [],
+    rawLog: item.raw_log,
   };
 }
 

@@ -7,6 +7,7 @@ export type HistoryApiItem = {
   risk_score: number;
   detected_issues: string[];
   suggested_solutions: string[];
+  raw_log?: string;
 };
 
 export function fetchDashboardData(): Promise<HistoryApiItem[]> {
