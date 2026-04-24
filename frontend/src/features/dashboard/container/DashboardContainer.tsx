@@ -17,27 +17,29 @@ export function DashboardContainer() {
     }
   }, [items, selectedId]);
 
-  if (loading) return <div>로딩중...</div>;
-  if (error) return <div>에러: {error}</div>;
+  if (loading) return <div className="p-6">로딩중...</div>;
+  if (error) return <div className="p-6">에러: {error}</div>;
 
   if (items.length === 0) {
-    return <div>데이터가 없습니다.</div>;
+    return <div className="p-6">데이터가 없습니다.</div>;
   }
 
   const selectedItem = items.find((item) => item.id === selectedId);
 
   return (
-    <main className="p-4">
-      <h2 className="text-2xl font-bold mb-4">D-Agent</h2>
-      <div className="flex flex-row gap-6">
-        <aside className="w-[300px] shrink-0 border-r border-gray-200 pr-4">
+    <main className="min-h-screen bg-gray-50">
+      <div className="flex min-h-screen">
+        <aside className="w-[280px] shrink-0 border-r border-gray-200 bg-white px-4 py-5">
+          <h1 className="mb-5 text-xl font-bold text-gray-900">D-Agent</h1>
+
           <HistoryList
             items={items}
             selectedId={selectedId}
             onSelect={setSelectedId}
           />
         </aside>
-        <section className="flex-1">
+
+        <section className="flex-1 overflow-y-auto px-8 py-8">
           {selectedItem && <ResultCard item={selectedItem} />}
         </section>
       </div>
