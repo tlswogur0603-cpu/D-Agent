@@ -11,6 +11,9 @@ export type HistoryItemModel = {
   createdAt: string; // ISO string
   title: string;
   risk: RiskScoreModel;
+  detectedIssues: string[];
+  suggestedSolutions: string[];
+  rawLog?: string;
 };
 
 export type DashboardDataModel = {
