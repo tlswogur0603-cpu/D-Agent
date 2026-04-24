@@ -11,3 +11,5 @@ frontend/.env.local
 # 패키지 매니저
 node_modules/
 frontend/.next/
+.next/
+next-env.d.ts
