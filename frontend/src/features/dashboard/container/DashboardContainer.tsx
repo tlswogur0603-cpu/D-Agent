@@ -28,9 +28,9 @@ export function DashboardContainer() {
 
   return (
     <main className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+      <h2 className="text-2xl font-bold mb-4">D-Agent</h2>
       <div className="flex flex-row gap-6">
-        <aside className="w-1/3 min-w-[250px] border-r border-gray-200 pr-4">
+        <aside className="w-[300px] shrink-0 border-r border-gray-200 pr-4">
           <HistoryList
             items={items}
             selectedId={selectedId}
